@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEHCO -- Lehigh County Pride</title>
+<meta name="description" content="LEHCO -- Lehigh County pride apparel, flags, and gear. Local history, local pride, worn loud.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1f3c;
+    --navy-deep: #081527;
+    --navy-light: #1c3766;
+    --gold: #d4a017;
+    --gold-bright: #f0c33c;
+    --gold-dim: #b8860b;
+    --cream: #f7f2e7;
+    --paper: #efe7d4;
+    --white: #ffffff;
+    --ink: #201d15;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; }
+  h1, h2, h3 { font-family: 'Anton', 'Oswald', 'Impact', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+  .halftone { background-image: radial-gradient(rgba(212,160,23,0.16) 1.4px, transparent 1.4px); background-size: 15px 15px; }
+  .announce { background: var(--gold); color: var(--navy-deep); text-align: center; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; padding: 9px 16px; }
+  .topbar { background: var(--navy-deep); padding: 14px 0; border-bottom: 3px solid var(--gold); }
+  .topbar .container { display: flex; align-items: center; justify-content: space-between; }
+  .topbar .brand { color: var(--cream); font-family: 'Anton', sans-serif; font-size: 1.3rem; letter-spacing: 2px; }
+  .topbar .brand span { color: var(--gold-bright); }
+  .topbar nav a { color: var(--cream); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-left: 24px; opacity: 0.85; transition: opacity 0.2s; }
+  .topbar nav a:hover { opacity: 1; color: var(--gold-bright); }
+  .hero { background: radial-gradient(ellipse at top, var(--navy-light) 0%, var(--navy) 45%, var(--navy-deep) 100%); color: var(--cream); text-align: center; padding: 64px 24px 120px; position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(212,160,23,0.14) 1.5px, transparent 1.5px); background-size: 16px 16px; pointer-events: none; }
+  .hero-inner { position: relative; z-index: 1; }
+  .hero .logo-stack { position: relative; max-width: 420px; margin: 0 auto 4px; }
+  .hero .logo-wrap img { width: 100%; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35)); }
+  .stamp { position: absolute; top: -6px; right: -18px; width: 108px; height: 108px; border: 2px dashed var(--gold-bright); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center; transform: rotate(11deg); color: var(--gold-bright); font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.62rem; letter-spacing: 1px; text-transform: uppercase; line-height: 1.3; padding: 6px; }
+  @media (max-width: 640px) { .stamp { right: -6px; width: 88px; height: 88px; font-size: 0.55rem; } }
+  .hero .eyebrow { color: var(--gold-bright); font-weight: 700; letter-spacing: 4px; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(2.3rem, 6vw, 3.8rem); line-height: 1.03; margin-bottom: 18px; }
+  .hero h1 .gold { color: var(--gold-bright); }
+  .hero p.sub { max-width: 580px; margin: 0 auto 30px; font-size: 1.12rem; color: rgba(247,242,231,0.88); }
+  .slogan-line { font-family: 'Oswald', sans-serif; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.95rem; color: var(--gold-bright); margin-bottom: 36px; }
+  .slogan-line span:not(:last-child)::after { content: "\00b7"; margin: 0 10px; color: rgba(240,195,60,0.5); }
+  .btn { display: inline-block; padding: 16px 38px; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 1rem; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 3px; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; border: 2px solid var(--navy-deep); }
+  .btn:hover { transform: translate(-2px, -2px); }
+  .btn-gold { background: var(--gold-bright); color: var(--navy-deep); border-color: var(--navy-deep); box-shadow: 5px 5px 0 var(--navy-deep); }
+  .btn-gold:hover { box-shadow: 7px 7px 0 var(--navy-deep); }
+  .btn-outline { background: transparent; color: var(--cream); border: 2px solid var(--gold-bright); box-shadow: 5px 5px 0 rgba(240,195,60,0.35); }
+  .btn-outline:hover { box-shadow: 7px 7px 0 rgba(240,195,60,0.45); }
+  .btn-navy { background: var(--navy-deep); color: var(--gold-bright); border-color: var(--navy-deep); box-shadow: 5px 5px 0 var(--gold-dim); }
+  .btn-navy:hover { box-shadow: 7px 7px 0 var(--gold-dim); }
+  .hero-buttons { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+  .torn { display: block; width: 100%; height: 46px; margin-top: -1px; }
+  .why { background: var(--paper); padding: 56px 24px; text-align: center; }
+  .why .container { max-width: 720px; }
+  .why p.lede { font-size: 1.15rem; color: var(--ink); }
+  .why .sign { display: block; margin-top: 18px; font-family: 'Permanent Marker', cursive; font-size: 1.3rem; color: var(--navy); }
+  .shop { background: var(--gold); padding: 70px 24px 60px; text-align: center; position: relative; overflow: hidden; }
+  .ribbon { position: absolute; top: 22px; right: -58px; background: var(--navy-deep); color: var(--gold-bright); font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 70px; transform: rotate(35deg); box-shadow: 0 3px 8px rgba(0,0,0,0.25); }
+  .shop h2 { color: var(--navy-deep); font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 14px; }
+  .shop p { max-width: 540px; margin: 0 auto 30px; color: var(--navy-deep); font-weight: 500; font-size: 1.05rem; }
+  .shop small { display: block; margin-top: 14px; color: var(--navy-deep); opacity: 0.75; font-size: 0.8rem; }
+  .product-strip { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; margin: 38px auto 44px; max-width: 900px; }
+  .product-card { background: var(--cream); border: 2px solid var(--navy-deep); border-radius: 8px; width: 132px; padding: 18px 10px 14px; text-align: center; box-shadow: 4px 4px 0 var(--navy-deep); transition: transform 0.15s ease; }
+  .product-card:nth-child(even) { transform: rotate(-2deg); }
+  .product-card:nth-child(odd) { transform: rotate(1.5deg); }
+  .product-card:hover { transform: rotate(0deg) translateY(-4px); }
+  .product-card svg { width: 52px; height: 52px; margin: 0 auto 8px; display: block; }
+  .product-card span { display: block; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.78rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--navy-deep); }
+  .legends { padding: 84px 24px 90px; background: var(--cream); }
+  .section-head { text-align: center; max-width: 660px; margin: 0 auto 54px; }
+  .section-head .eyebrow { color: var(--gold-dim); font-weight: 700; letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
+  .section-head h2 { color: var(--navy-deep); font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 14px; }
+  .section-head p { color: #55503f; font-size: 1.05rem; }
+  .legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 26px; }
+  .legend-card { background: var(--white); border: 1px solid rgba(13,31,60,0.1); border-radius: 8px; padding: 28px 24px 24px; box-shadow: 6px 6px 0 rgba(13,31,60,0.08); transition: transform 0.2s ease, box-shadow 0.2s ease; position: relative; }
+  .legend-grid .legend-card:nth-child(3n+1) { transform: rotate(-0.8deg); }
+  .legend-grid .legend-card:nth-child(3n+2) { transform: rotate(0.6deg); }
+  .legend-grid .legend-card:nth-child(3n+3) { transform: rotate(-0.4deg); }
+  .legend-card:hover { transform: rotate(0deg) translateY(-5px) !important; box-shadow: 8px 8px 0 rgba(212,160,23,0.45); }
+  .legend-card .icon-badge { width: 54px; height: 54px; border-radius: 50%; background: var(--navy-deep); color: var(--gold-bright); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 14px; border: 2px solid var(--gold); }
+  .legend-card .card-image { width: 100%; height: 130px; background: var(--paper); border: 2px solid var(--navy-deep); border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+  .legend-card .card-image svg { width: 100%; height: 100%; display: block; }
+  .legend-card .tag { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 6px; }
+  .legend-card h3 { font-size: 1.15rem; color: var(--navy-deep); margin-bottom: 10px; letter-spacing: 0.3px; }
+  .legend-card p { font-size: 0.94rem; color: #4a4638; margin-bottom: 14px; }
+  .legend-card .read-more { font-size: 0.82rem; font-weight: 700; color: var(--navy); letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+  .legend-card .read-more.disabled { color: #a3a08f; border-bottom-color: #d8d3c2; cursor: default; }
+  .legend-card .read-more:not(.disabled):hover { color: var(--gold-dim); }
+  .overheard { background: var(--navy-deep); color: var(--cream); padding: 80px 24px; }
+  .overheard .section-head p, .overheard .section-head .eyebrow { color: rgba(247,242,231,0.65); }
+  .overheard .section-head h2 { color: var(--cream); }
+  .quote-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; max-width: 980px; margin: 0 auto; }
+  .quote-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(212,160,23,0.3); border-radius: 8px; padding: 26px 22px; position: relative; }
+  .quote-card .mark { font-family: 'Anton', sans-serif; font-size: 2.6rem; color: var(--gold); line-height: 1; display: block; margin-bottom: 6px; }
+  .quote-card p { font-size: 1rem; color: rgba(247,242,231,0.9); }
+  .signup { background: var(--gold-bright); color: var(--navy-deep); padding: 70px 24px; text-align: center; }
+  .signup h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 12px; color: var(--navy-deep); }
+  .signup p { max-width: 480px; margin: 0 auto 28px; color: rgba(8,21,39,0.75); }
+  .signup-form { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; max-width: 480px; margin: 0 auto; }
+  .signup-form input[type="email"] { flex: 1 1 260px; padding: 15px 18px; border-radius: 3px; border: 2px solid var(--navy-deep); background: var(--cream); color: var(--navy-deep); font-size: 1rem; font-family: 'Inter', sans-serif; }
+  .signup-form input[type="email"]::placeholder { color: rgba(8,21,39,0.45); }
+  .signup-form input[type="email"]:focus { outline: none; border-color: var(--navy); }
+  .signup-form button { flex: 0 0 auto; }
+  .signup small { display: block; margin-top: 16px; color: rgba(8,21,39,0.6); font-size: 0.78rem; }
+  footer { background: var(--navy); color: rgba(247,242,231,0.7); padding: 34px 24px; text-align: center; border-top: 3px solid var(--gold); font-size: 0.85rem; }
+  footer .foot-brand { color: var(--cream); font-family: 'Anton', sans-serif; letter-spacing: 2px; font-size: 1rem; margin-bottom: 8px; }
+  footer .foot-brand span { color: var(--gold-bright); }
+  footer a { text-decoration: underline; text-underline-offset: 3px; }
+  footer a:hover { color: var(--gold-bright); }
+  @media (max-width: 640px) { .topbar nav { display: none; } .ribbon { right: -70px; } }
+</style>
+</head>
+<body>
+
+  <div class="announce">Print-to-order &middot; Ships from Lehigh County, PA &middot; Etsy store opening soon</div>
+
+  <div class="topbar">
+    <div class="container">
+      <div class="brand">LEH<span>CO</span></div>
+      <nav>
+        <a href="#shop">Shop</a>
+        <a href="#legends">History</a>
+        <a href="#join">Join</a>
+      </nav>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container hero-inner">
+      <div class="logo-stack">
+        <div class="logo-wrap">
+          <img src="lehco_transparent.png" alt="LEHCO logo, Pennsylvania outline with gold star marking Lehigh County">
+        </div>
+        <div class="stamp">Locally<br>Designed<br>610</div>
+      </div>
+      <p class="eyebrow">Est. Lehigh County, PA</p>
+      <h1>Lehigh County Pride,<br><span class="gold">Worn Loud.</span></h1>
+      <p class="sub">From Allentown to Trexlertown, this is home. LEHCO is apparel, flags, and gear made for the people who never left the 610, and the ones who wish they hadn't.</p>
+      <p class="slogan-line"><span>Mack Trucks</span><span>A-Treat</span><span>Backroads</span><span>The Fair</span><span>The 610</span></p>
+      <div class="hero-buttons">
+        <a href="#shop" class="btn btn-gold">Shop LEHCO</a>
+        <a href="#legends" class="btn btn-outline">Our History</a>
+      </div>
+    </div>
+  </header>
+  <svg class="torn" viewBox="0 0 1200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="0,0 1200,0 1200,18 1170,26 1140,14 1110,30 1080,10 1050,24 1020,12 990,28 960,16 930,32 900,10 870,26 840,14 810,30 780,18 750,8 720,26 690,14 660,30 630,20 600,8 570,26 540,14 510,32 480,10 450,26 420,16 390,30 360,10 330,26 300,14 270,30 240,18 210,8 180,26 150,14 120,30 90,18 60,10 30,26 0,14" fill="#efe7d4"></polygon>
+  </svg>
+
+  <section class="why">
+    <div class="container">
+      <p class="lede">We started LEHCO because there's a Delco shirt, a Chesco shirt, a Bucks shirt, and nothing for the county that gave the world a bulldog on a hood and a bell in a basement. Lehigh County has stories nobody else gets to tell. We just figured somebody should put them on a hoodie.</p>
+      <span class="sign">-- Dave &amp; family, LEHCO</span>
+    </div>
+  </section>
+
+  <section class="shop" id="shop">
+    <div class="ribbon">Opening Soon</div>
+    <div class="container">
+      <h2>Shop LEHCO</h2>
+      <p>Every design starts with a Lehigh County story. Tees, hoodies, hats, stickers, and flags, printed to order, one at a time, no warehouse required.</p>
+
+      <div class="product-strip">
+        <div class="product-card">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#081527" stroke-width="2.5" stroke-linejoin="round"><path d="M20 8 L8 18 L14 28 L20 24 V56 H44 V24 L50 28 L56 18 L44 8 Q32 14 20 8 Z"></path></svg>
+          <span>Tees</span>
+        </div>
+        <div class="product-card">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#081527" stroke-width="2.5" stroke-linejoin="round"><path d="M20 10 L8 20 L14 30 L20 26 V56 H44 V26 L50 30 L56 20 L44 10 Q32 6 20 10 Z"></path><path d="M24 10 Q32 20 40 10"></path></svg>
+          <span>Hoodies</span>
+        </div>
+        <div class="product-card">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#081527" stroke-width="2.5" stroke-linejoin="round"><path d="M8 38 Q32 18 56 38 L56 42 Q32 26 8 42 Z"></path><path d="M40 38 Q46 26 40 20 Q52 22 52 34"></path></svg>
+          <span>Hats</span>
+        </div>
+        <div class="product-card">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#081527" stroke-width="2.5" stroke-linejoin="round"><rect x="10" y="14" width="44" height="30" rx="3"></rect><path d="M10 14 L32 32 L54 14"></path></svg>
+          <span>Stickers</span>
+        </div>
+        <div class="product-card">
+          <svg viewBox="0 0 64 64" fill="none" stroke="#081527" stroke-width="2.5" stroke-linejoin="round"><path d="M14 6 V58"></path><path d="M14 10 H50 L42 20 L50 30 H14"></path></svg>
+          <span>Flags</span>
+        </div>
+      </div>
+
+      <a href="https://www.etsy.com/shop/LEHCO" target="_blank" rel="noopener" class="btn btn-navy">Visit Our Etsy Store &rarr;</a>
+      <small>Placeholder link, Etsy store opening soon.</small>
+    </div>
+  </section>
+
+  <section class="legends" id="legends">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">The Stories Behind the Star</p>
+        <h2>Lehigh County Legends</h2>
+        <p>Every county has landmarks. Ours have plot twists. Here's a taste of the history that makes Lehigh County worth bragging about.</p>
+      </div>
+      <div class="legend-grid">
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<circle cx='520' cy='60' r='85' fill='#d4a017' opacity='0.16'/>
+<rect x='20' y='196' width='600' height='4' fill='#d4a017'/>
+<rect x='230' y='96' width='300' height='84' rx='6' fill='#0d1f3c'/>
+<rect x='250' y='112' width='260' height='8' fill='#d4a017'/>
+<rect x='95' y='108' width='95' height='72' rx='8' fill='#0d1f3c'/>
+<rect x='108' y='120' width='34' height='28' rx='3' fill='#f7f2e7'/>
+<rect x='150' y='150' width='55' height='30' rx='4' fill='#1c3766'/>
+<ellipse cx='150' cy='128' rx='10' ry='8' fill='#d4a017'/>
+<circle cx='150' cy='210' r='26' fill='#081527' stroke='#d4a017' stroke-width='5'/>
+<circle cx='150' cy='210' r='9' fill='#d4a017'/>
+<circle cx='270' cy='210' r='26' fill='#081527' stroke='#d4a017' stroke-width='5'/>
+<circle cx='270' cy='210' r='9' fill='#d4a017'/>
+<circle cx='460' cy='210' r='26' fill='#081527' stroke='#d4a017' stroke-width='5'/>
+<circle cx='460' cy='210' r='9' fill='#d4a017'/>
+<circle cx='500' cy='210' r='26' fill='#081527' stroke='#d4a017' stroke-width='5'/>
+<circle cx='500' cy='210' r='9' fill='#d4a017'/>
+</svg></div>
+          <span class="tag">Industry</span>
+          <h3>Mack Trucks</h3>
+          <p>Born in Allentown in 1905, Mack put a snarling bulldog on the hood and Lehigh County on the map of American manufacturing.</p>
+          <a href="content/mack-trucks.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<rect x='0' y='0' width='640' height='240' fill='none'/>
+<path d='M220 40 Q320 0 420 40 L420 90 L220 90 Z' fill='#1c3766' opacity='0.25'/>
+<rect x='250' y='90' width='140' height='90' fill='#1c3766' opacity='0.18'/>
+<path d='M270 60 Q320 100 370 60' stroke='#d4a017' stroke-width='4' fill='none' opacity='0.5'/>
+<path d='M240 60 C240 20 400 20 400 60 C400 90 420 110 420 150 L220 150 C220 110 240 90 240 60 Z' fill='#0d1f3c'/>
+<rect x='300' y='150' width='40' height='22' fill='#0d1f3c'/>
+<path d='M320 172 L305 210 L335 210 Z' fill='#0d1f3c'/>
+<circle cx='320' cy='215' r='10' fill='#0d1f3c'/>
+<path d='M300 95 L285 150' stroke='#d4a017' stroke-width='5' fill='none'/>
+<rect x='140' y='205' width='360' height='10' fill='#7a6a45'/>
+<rect x='140' y='205' width='40' height='10' fill='#5c4d30'/>
+<rect x='220' y='205' width='40' height='10' fill='#5c4d30'/>
+<rect x='300' y='205' width='40' height='10' fill='#5c4d30'/>
+<rect x='380' y='205' width='40' height='10' fill='#5c4d30'/>
+<rect x='460' y='205' width='40' height='10' fill='#5c4d30'/>
+</svg></div>
+          <span class="tag">History</span>
+          <h3>The Liberty Bell's Hideout</h3>
+          <p>In 1777, the Liberty Bell went underground, literally, hidden beneath Zion's Reformed Church in Allentown for nine months.</p>
+          <a href="content/liberty-bell-hidden-allentown.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<circle cx='150' cy='70' r='70' fill='#d4a017' opacity='0.14'/>
+<circle cx='470' cy='170' r='55' fill='#d4a017' opacity='0.12'/>
+<rect x='288' y='30' width='24' height='26' rx='4' fill='#0d1f3c'/>
+<path d='M270 56 L330 56 L340 100 L340 190 Q340 205 320 205 L280 205 Q260 205 260 190 L260 100 Z' fill='#0d1f3c'/>
+<rect x='262' y='120' width='76' height='44' fill='#d4a017'/>
+<text x='300' y='148' font-family='Oswald, sans-serif' font-size='20' font-weight='700' fill='#0d1f3c' text-anchor='middle'>A-T</text>
+<circle cx='230' cy='90' r='6' fill='#f0c33c' opacity='0.6'/>
+<circle cx='210' cy='120' r='4' fill='#f0c33c' opacity='0.6'/>
+<circle cx='380' cy='80' r='5' fill='#f0c33c' opacity='0.6'/>
+<circle cx='400' cy='130' r='7' fill='#f0c33c' opacity='0.6'/>
+<rect x='150' y='210' width='340' height='6' fill='#d4a017'/>
+</svg></div>
+          <span class="tag">Local Flavor</span>
+          <h3>A-Treat Soda</h3>
+          <p>Bottled in Allentown since 1918, A-Treat is the taste of a Lehigh County summer, birch beer included, no substitutes accepted.</p>
+          <a href="content/a-treat-soda.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<rect x='120' y='60' width='400' height='140' fill='#0d1f3c'/>
+<rect x='120' y='40' width='400' height='24' fill='#d4a017'/>
+<polygon points='120,64 150,64 135,90' fill='#d4a017'/>
+<polygon points='170,64 200,64 185,90' fill='#f7f2e7'/>
+<polygon points='220,64 250,64 235,90' fill='#d4a017'/>
+<polygon points='270,64 300,64 285,90' fill='#f7f2e7'/>
+<polygon points='320,64 350,64 335,90' fill='#d4a017'/>
+<polygon points='370,64 400,64 385,90' fill='#f7f2e7'/>
+<polygon points='420,64 450,64 435,90' fill='#d4a017'/>
+<polygon points='470,64 500,64 485,90' fill='#f7f2e7'/>
+<rect x='150' y='105' width='50' height='50' fill='#f7f2e7'/>
+<rect x='230' y='105' width='50' height='50' fill='#f7f2e7'/>
+<rect x='360' y='105' width='50' height='50' fill='#f7f2e7'/>
+<rect x='440' y='105' width='50' height='50' fill='#f7f2e7'/>
+<rect x='290' y='140' width='60' height='60' fill='#f7f2e7'/>
+<rect x='310' y='160' width='20' height='40' fill='#0d1f3c'/>
+<rect x='60' y='198' width='520' height='8' fill='#d4a017'/>
+</svg></div>
+          <span class="tag">Retail Royalty</span>
+          <h3>Hess's Department Store</h3>
+          <p>Allentown's legendary department store basically invented the mall food court, and a parade nobody who saw it ever forgot.</p>
+          <a href="content/hess-department-store.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<path d='M480 30 A40 40 0 1 0 480 100 A32 32 0 1 1 480 30 Z' fill='#d4a017' opacity='0.55'/>
+<circle cx='90' cy='40' r='3' fill='#f0c33c'/>
+<circle cx='130' cy='60' r='2.5' fill='#f0c33c'/>
+<circle cx='170' cy='35' r='2' fill='#f0c33c'/>
+<circle cx='60' cy='75' r='2' fill='#f0c33c'/>
+<rect x='120' y='40' width='260' height='140' fill='#0d1f3c'/>
+<rect x='120' y='40' width='260' height='140' fill='none' stroke='#d4a017' stroke-width='4'/>
+<rect x='190' y='150' width='16' height='40' fill='#5c4d30'/>
+<rect x='150' y='210' width='340' height='6' fill='#d4a017'/>
+<rect x='170' y='190' width='70' height='34' rx='6' fill='#1c3766'/>
+<circle cx='185' cy='224' r='9' fill='#081527'/>
+<circle cx='225' cy='224' r='9' fill='#081527'/>
+<rect x='320' y='190' width='70' height='34' rx='6' fill='#1c3766'/>
+<circle cx='335' cy='224' r='9' fill='#081527'/>
+<circle cx='375' cy='224' r='9' fill='#081527'/>
+</svg></div>
+          <span class="tag">Only Here</span>
+          <h3>Shankweiler's Drive-In</h3>
+          <p>Running in Orefield since 1934, Shankweiler's is America's oldest continuously operating drive-in theater. Still slinging popcorn.</p>
+          <a href="content/shankweilers-drive-in.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<circle cx='500' cy='90' r='60' fill='none' stroke='#d4a017' stroke-width='4' opacity='0.55'/>
+<line x1='500' y1='30' x2='500' y2='150' stroke='#d4a017' stroke-width='2' opacity='0.5'/>
+<line x1='440' y1='90' x2='560' y2='90' stroke='#d4a017' stroke-width='2' opacity='0.5'/>
+<line x1='458' y1='48' x2='542' y2='132' stroke='#d4a017' stroke-width='2' opacity='0.5'/>
+<line x1='458' y1='132' x2='542' y2='48' stroke='#d4a017' stroke-width='2' opacity='0.5'/>
+<circle cx='500' cy='90' r='7' fill='#d4a017'/>
+<path d='M40 200 L100 120 L150 170 L210 70 L260 160 L320 100 L640 100' fill='none' stroke='#0d1f3c' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/>
+<rect x='195' y='58' width='30' height='16' rx='4' fill='#d4a017'/>
+<rect x='40' y='200' width='560' height='6' fill='#d4a017'/>
+</svg></div>
+          <span class="tag">Thrill Ride</span>
+          <h3>Dorney Park</h3>
+          <p>Dropping stomachs and building memories since 1884, Dorney Park is Lehigh County's own amusement park institution.</p>
+          <a href="content/dorney-park.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<ellipse cx='320' cy='150' rx='260' ry='70' fill='none' stroke='#0d1f3c' stroke-width='14'/>
+<ellipse cx='320' cy='150' rx='260' ry='70' fill='none' stroke='#d4a017' stroke-width='3'/>
+<ellipse cx='320' cy='150' rx='170' ry='40' fill='#f7f2e7'/>
+<circle cx='150' cy='108' r='14' fill='#0d1f3c'/>
+<path d='M150 122 L130 165 L100 165' stroke='#0d1f3c' stroke-width='8' fill='none' stroke-linecap='round'/>
+<path d='M150 122 L175 150' stroke='#0d1f3c' stroke-width='8' fill='none' stroke-linecap='round'/>
+<circle cx='100' cy='165' r='16' fill='none' stroke='#0d1f3c' stroke-width='5'/>
+<circle cx='175' cy='150' r='16' fill='none' stroke='#0d1f3c' stroke-width='5'/>
+</svg></div>
+          <span class="tag">Cycling Capital</span>
+          <h3>Trexlertown Velodrome</h3>
+          <p>The T-Town Velodrome turned a quiet corner of Lehigh County into one of America's most storied cycling tracks.</p>
+          <a href="content/trexlertown-velodrome.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<circle cx='500' cy='70' r='75' fill='#d4a017' opacity='0.15'/>
+<path d='M90 175 L110 140 Q140 110 190 108 L260 105 Q300 90 340 105 L400 108 Q450 110 470 140 L490 175 Z' fill='#0d1f3c'/>
+<rect x='215' y='95' width='120' height='35' rx='10' fill='#1c3766'/>
+<rect x='225' y='100' width='45' height='24' rx='4' fill='#f7f2e7'/>
+<rect x='280' y='100' width='45' height='24' rx='4' fill='#f7f2e7'/>
+<circle cx='170' cy='185' r='28' fill='#081527' stroke='#d4a017' stroke-width='5'/>
+<circle cx='170' cy='185' r='10' fill='#d4a017'/>
+<circle cx='410' cy='185' r='28' fill='#081527' stroke='#d4a017' stroke-width='5'/>
+<circle cx='410' cy='185' r='10' fill='#d4a017'/>
+<rect x='40' y='210' width='560' height='6' fill='#d4a017'/>
+</svg></div>
+          <span class="tag">Hometown Hero</span>
+          <h3>Lee Iacocca</h3>
+          <p>Born and raised in Allentown, Iacocca went on to reinvent Ford's Mustang and save Chrysler from the brink.</p>
+          <a href="content/lee-iacocca.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+        <div class="legend-card">
+          <div class="card-image"><svg viewBox='0 0 640 240' xmlns='http://www.w3.org/2000/svg'>
+<rect x='60' y='40' width='14' height='120' fill='#0d1f3c'/>
+<rect x='190' y='40' width='14' height='120' fill='#0d1f3c'/>
+<rect x='40' y='40' width='190' height='12' fill='#0d1f3c'/>
+<rect x='90' y='40' width='14' height='60' fill='#0d1f3c'/>
+<rect x='150' y='40' width='14' height='60' fill='#0d1f3c'/>
+<ellipse cx='420' cy='150' rx='60' ry='34' fill='#0d1f3c' transform='rotate(-20 420 150)'/>
+<path d='M395 150 L445 150 M410 138 L410 162 M420 134 L420 166 M430 138 L430 162' stroke='#f7f2e7' stroke-width='3' transform='rotate(-20 420 150)'/>
+<circle cx='320' cy='90' r='20' fill='#d4a017'/>
+<path d='M320 110 L320 150 M320 122 L295 145 M320 122 L345 145 M320 150 L300 200 M320 150 L340 200' stroke='#d4a017' stroke-width='10' fill='none' stroke-linecap='round'/>
+<rect x='40' y='205' width='560' height='6' fill='#d4a017'/>
+<circle cx='540' cy='60' r='45' fill='#d4a017' opacity='0.15'/>
+</svg></div>
+          <span class="tag">Hometown Hero</span>
+          <h3>Saquon Barkley</h3>
+          <p>Before he was breaking NFL tackles, Saquon was Whitehall's own, Lehigh County's homegrown star running back.</p>
+          <a href="content/saquon-barkley.html" class="read-more">Read the Full Story &rarr;</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="overheard halftone">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Local Knowledge</p>
+        <h2>Overheard in the 610</h2>
+        <p>Things you only understand if you're from here.</p>
+      </div>
+      <div class="quote-grid">
+        <div class="quote-card"><span class="mark">&ldquo;</span><p>You're not really from here until you've argued about whether it's "Allentown" or "the Valley."</p></div>
+        <div class="quote-card"><span class="mark">&ldquo;</span><p>There are two seasons in Lehigh County: Fair season, and "when's the Fair again?" season.</p></div>
+        <div class="quote-card"><span class="mark">&ldquo;</span><p>A-Treat birch beer isn't a beverage preference. It's a personality trait.</p></div>
+        <div class="quote-card"><span class="mark">&ldquo;</span><p>Ask someone from Trexlertown about the Velodrome. Clear your schedule.</p></div>
+        <div class="quote-card"><span class="mark">&ldquo;</span><p>If your grandfather didn't work at Mack, did you even grow up here?</p></div>
+        <div class="quote-card"><span class="mark">&ldquo;</span><p>We hid the Liberty Bell in a church basement once. We don't bring it up enough.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="signup" id="join">
+    <div class="container">
+      <h2>Join the LEHCO List</h2>
+      <p>New designs, new stories, and first dibs when new merch drops. No spam, just Lehigh County pride in your inbox.</p>
+      <form class="signup-form" onsubmit="return false;">
+        <input type="email" placeholder="you@example.com" aria-label="Email address">
+        <button type="submit" class="btn btn-navy">Sign Up</button>
+      </form>
+      <small>Placeholder signup, email collection coming soon.</small>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-brand">LEH<span>CO</span></div>
+    <p>Lehigh County pride, made local. &copy; 2026 LEHCO. All rights reserved.</p>
+    <p><a href="#shop">Shop</a> &nbsp;&middot;&nbsp; <a href="#legends">History</a> &nbsp;&middot;&nbsp; <a href="#join">Join the List</a></p>
+  </footer>
+
+</body>
+</html>
