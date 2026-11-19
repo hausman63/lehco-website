@@ -1,0 +1,32 @@
+name: Update episodes
+# Every morning after the 8 AM video goes public: add it to the site and rebuild the pages.
+on:
+  schedule:
+    - cron: '25 13 * * *'
+    - cron: '25 16 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update-episodes
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add newly published videos
+        run: python3 _build/update_from_youtube.py
+      - name: Rebuild pages
+        run: python3 _build/build_site.py
+      - name: Commit if anything changed
+        run: |
+          git config user.name "lehco-site-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Add new episodes and rebuild pages"
+            git push
+          fi
