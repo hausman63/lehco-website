@@ -1,0 +1,79 @@
+/* LEHCO: a two-ink county broadside. Stock, navy ink, oxblood ink, one gold star. */
+:root{--stock:#e7dfcb;--stock-deep:#d8cdb2;--ink:#16202f;--navy:#12233f;--oxblood:#7b2219;--gold:#c2932a;--rule:#16202f;
+--fat:'Abril Fatface',Georgia,serif;--slab:'Alfa Slab One',Rockwell,serif;--cond:'League Gothic','Oswald',Impact,sans-serif;--text:'Source Serif 4',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--text);font-size:1.0625rem;line-height:1.65;color:var(--ink);background:var(--stock);
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .16 0 0 0 0 .1 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+img{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--oxblood);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+/* masthead */
+.mast{border-bottom:3px double var(--rule)}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.mast .name{font-family:var(--fat);font-size:1.7rem;letter-spacing:.04em;text-decoration:none;line-height:1}
+.mast nav{display:flex;gap:22px;flex-wrap:wrap}
+.mast nav a{font-family:var(--cond);font-size:1.25rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-bottom:2px solid transparent}
+.mast nav a:hover,.mast nav a[aria-current]{border-bottom-color:var(--oxblood);color:var(--oxblood)}
+/* the broadside */
+.bill{padding:34px 0 46px;text-align:center}
+.bill .sheet{border:3px solid var(--rule);outline:1px solid var(--rule);outline-offset:5px;padding:clamp(20px,4vw,44px) clamp(14px,4vw,48px);margin:8px}
+.bill .when{font-family:var(--cond);text-transform:uppercase;letter-spacing:.2em;font-size:clamp(1.1rem,2.6vw,1.7rem)}
+.bill .rule{height:0;border-top:3px solid var(--rule);border-bottom:1px solid var(--rule);padding-top:3px;margin:14px auto}
+.bill .rule.short{width:38%}
+.bill h1{font-weight:400;line-height:.92}
+.bill .l1{display:block;font-family:var(--fat);font-size:clamp(1.9rem,9.6vw,8.4rem);letter-spacing:.01em;white-space:nowrap}
+.bill .l2{display:block;font-family:var(--slab);font-size:clamp(2.5rem,13.2vw,11.6rem);color:var(--oxblood);letter-spacing:.03em;line-height:.9;margin-top:.06em}
+.bill .l3{display:block;font-family:var(--text);font-style:italic;font-size:clamp(1.3rem,3.6vw,2.5rem);margin-top:.35em;line-height:1.1}
+.bill .cut{width:clamp(120px,19vw,200px);height:auto;margin:20px auto 6px}
+.bill .claims{font-family:var(--cond);text-transform:uppercase;font-size:clamp(1.25rem,3vw,2.1rem);letter-spacing:.07em;line-height:1.15}
+.bill .claims span{white-space:nowrap}
+.bill .claims b{color:var(--gold);font-weight:400;padding:0 .15em}
+.bill .fine{max-width:56ch;margin:14px auto 0;font-size:1.05rem}
+.btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.btn{font-family:var(--cond);text-transform:uppercase;letter-spacing:.08em;font-size:1.4rem;line-height:1;padding:14px 26px 12px;text-decoration:none;border:3px solid var(--rule);background:var(--ink);color:var(--stock);display:inline-block}
+.btn:hover{background:var(--oxblood);border-color:var(--oxblood)}
+.btn.plain{background:transparent;color:var(--ink)}
+.btn.plain:hover{background:var(--ink);color:var(--stock);border-color:var(--rule)}
+/* sections */
+.sec{padding:52px 0;border-top:3px double var(--rule)}
+.sec h2{font-family:var(--cond);font-weight:400;text-transform:uppercase;font-size:clamp(2.4rem,6vw,3.6rem);line-height:.95;letter-spacing:.02em}
+.sec .lead{max-width:62ch;margin:10px 0 28px;font-size:1.1rem}
+.sec.inked{background:var(--navy);color:var(--stock);border-top:0}
+.sec.inked .btn{background:var(--stock);color:var(--ink);border-color:var(--stock)}
+.sec.inked .btn:hover{background:var(--gold);border-color:var(--gold)}
+/* episode plates */
+.plates{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px 22px}
+.plate{display:flex;flex-direction:column}
+.plate .pic{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border:2px solid var(--rule);background:var(--navy)}
+.plate .pic img{width:100%;height:100%;object-fit:cover;filter:sepia(.5) saturate(.75) contrast(1.05)}
+.plate .pic:hover img{filter:none}
+.plate time{font-family:var(--cond);font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--oxblood);margin-top:10px;line-height:1.1}
+.plate h3{font-family:var(--text);font-weight:700;font-size:1.06rem;line-height:1.3;margin:4px 0 6px}
+.plate .on{font-size:.95rem;margin-top:auto}
+.plate.lead-plate{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center}
+.plate.lead-plate h3{font-family:var(--fat);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.6rem);line-height:1.08}
+.plate.lead-plate .pic{aspect-ratio:16/10}
+@media(max-width:720px){.plate.lead-plate{grid-template-columns:1fr;gap:6px}}
+.search{font:inherit;width:100%;max-width:460px;padding:12px 14px;border:2px solid var(--rule);background:#f3eddd;color:var(--ink);margin-bottom:26px}
+.none{display:none;padding:14px 0}
+/* letter */
+.letter{max-width:64ch}
+.letter p{font-size:1.25rem;line-height:1.6}
+.letter .sig{font-style:italic;margin-top:12px;font-size:1.1rem}
+/* story index */
+.index{list-style:none;columns:2;column-gap:44px}
+.index li{break-inside:avoid;padding:14px 0;border-bottom:1px solid var(--rule)}
+.index a{text-decoration:none;display:block}
+.index strong{font-family:var(--fat);font-weight:400;font-size:1.55rem;line-height:1.1;display:block}
+.index a:hover strong{color:var(--oxblood)}
+.index span{display:block;margin-top:4px;font-size:1rem}
+@media(max-width:720px){.index{columns:1}}
+/* overheard */
+.said{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px 34px}
+.said blockquote{font-style:italic;font-size:1.15rem;line-height:1.45;padding-left:16px;border-left:3px solid var(--gold)}
+/* footer */
+.foot{border-top:3px double var(--rule);padding:30px 0 40px;font-size:.98rem}
+.foot .wrap{display:flex;gap:16px 30px;flex-wrap:wrap;justify-content:space-between}
+.foot nav{display:flex;gap:18px;flex-wrap:wrap}
