@@ -13,6 +13,11 @@ TT = 'https://www.tiktok.com/@lehco_pa'
 ETSY = 'https://lehco.etsy.com'
 MAIL = 'lehcohistory@gmail.com'
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">'
+import hashlib
+try:
+    CSSV = hashlib.md5(open(os.path.join(site, 'lehco.css'), 'rb').read()).hexdigest()[:8]
+except Exception:
+    CSSV = '1'
 TRI = '<span class="tri" aria-hidden="true"></span>'
 def ytid(u):
     m = re.search(r'(?:v=|shorts/|youtu\.be/)([\w-]{11})', u or ''); return m.group(1) if m else ''
@@ -58,7 +63,7 @@ def page(title, desc, path, body, extra=''):
 <meta property="og:url" content="https://lehcobrand.com{path}">
 <meta property="og:image" content="https://lehcobrand.com/media/hero-reel.jpg">
 {FONTS}
-<link rel="stylesheet" href="/lehco.css">
+<link rel="stylesheet" href="/lehco.css?v={CSSV}">
 {extra}
 </head>
 <body>
