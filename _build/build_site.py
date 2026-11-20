@@ -106,13 +106,13 @@ home = f'''{top('')}
 <div class="wrap">
 <h1>You’ve driven past it <em>a thousand times.</em></h1>
 <p>The bell hidden under a church floor. The creek that sinks into the ground. The outhouse on the National Register. Lehigh County’s stories, one minute every morning at 8.</p>
-<div class="acts"><a class="btn" href="https://www.youtube.com/shorts/{ytid(latest['youtube'])}" data-yt="{ytid(latest['youtube'])}">{TRI} Play this morning’s story</a><a class="btn ghost" href="/episodes.html">Browse every episode</a></div>
+<div class="acts"><a class="btn" href="https://www.youtube.com/shorts/{ytid(latest['youtube'])}" data-yt="{ytid(latest['youtube'])}">{TRI} Play the latest story</a><a class="btn ghost" href="/episodes.html">Browse every episode</a></div>
 </div>
 </section>
 <section class="sec" id="latest"><div class="wrap">
 <div class="today">
 {card(latest, True)}
-<div><p class="when">This morning · {nice(latest['date'])}</p><h2>{E(latest['title'])}</h2>
+<div><p class="when">The latest · {nice(latest['date'])}</p><h2>{E(latest['title'])}</h2>
 <p class="lede">Sixty seconds, real photographs, named sources. If we get one wrong, the correction gets pinned.</p>
 <div class="acts"><a class="btn" href="https://www.youtube.com/shorts/{ytid(latest['youtube'])}" data-yt="{ytid(latest['youtube'])}">{TRI} Watch now</a><a class="btn ghost" href="{YT}?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a></div></div>
 </div>
