@@ -5,7 +5,6 @@ A GitHub Action runs it every morning after _build/update_from_youtube.py adds t
 import csv, html, json, re, os, sys, datetime
 here = os.path.dirname(os.path.abspath(__file__))
 site = sys.argv[1] if len(sys.argv) > 1 else (os.path.dirname(here) if os.path.basename(here) == '_build' else here)
-repo = site
 rows = sorted(csv.DictReader(open(os.path.join(here, 'episodes-data.csv'), encoding='utf-8')), key=lambda r: r['date'], reverse=True)
 E = html.escape
 YT = 'https://www.youtube.com/channel/UC-eUx-OY9vU2cHm58JQXDQw'
@@ -13,28 +12,37 @@ IG = 'https://www.instagram.com/lehco_pa/'
 TT = 'https://www.tiktok.com/@lehco_pa'
 ETSY = 'https://lehco.etsy.com'
 MAIL = 'lehcohistory@gmail.com'
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=League+Gothic&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">'
+FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">'
+TRI = '<span class="tri" aria-hidden="true"></span>'
 def ytid(u):
     m = re.search(r'(?:v=|shorts/|youtu\.be/)([\w-]{11})', u or ''); return m.group(1) if m else ''
+rows = [r for r in rows if ytid(r['youtube'])]
 def nice(d): return datetime.date.fromisoformat(d).strftime('%B %-d, %Y')
-def first(r):
-    v = ytid(r['youtube']); return f'https://www.youtube.com/shorts/{v}' if v else (r['instagram'] or r['tiktok'])
-def plate(r, lead=False):
+def short(d): return datetime.date.fromisoformat(d).strftime('%b %-d, %Y')
+def card(r, big=False):
     v = ytid(r['youtube']); t = E(r['title'])
-    on = []
-    if v: on.append(f'<a href="https://www.youtube.com/shorts/{v}" target="_blank" rel="noopener">YouTube</a>')
-    if r['instagram']: on.append(f'<a href="{E(r["instagram"])}" target="_blank" rel="noopener">Instagram</a>')
-    if r['tiktok']: on.append(f'<a href="{E(r["tiktok"])}" target="_blank" rel="noopener">TikTok</a>')
-    img = f'<img {"" if lead else "loading=lazy "}src="https://i.ytimg.com/vi/{v}/hqdefault.jpg" alt="">' if v else ''
-    body = f'<time datetime="{r["date"]}">{nice(r["date"])}</time><h3>{t}</h3><p class="on">Watch on {", ".join(on)}</p>'
-    if lead:
-        return f'<article class="plate lead-plate"><a class="pic" href="{E(first(r))}" target="_blank" rel="noopener" aria-label="Watch: {t}">{img}</a><div>{body}</div></article>'
-    return f'<article class="plate" data-t="{t.lower()}"><a class="pic" href="{E(first(r))}" target="_blank" rel="noopener" aria-label="Watch: {t}">{img}</a>{body}</article>'
-def mast(cur):
+    return (f'<a class="card{" big" if big else ""}" href="https://www.youtube.com/shorts/{v}" data-yt="{v}" data-t="{t.lower()}" target="_blank" rel="noopener" aria-label="Play: {t}">'
+            f'<img {"" if big else "loading=lazy "}src="https://i.ytimg.com/vi/{v}/hqdefault.jpg" alt="">'
+            f'<span class="play">{TRI}</span><span class="meta"><time datetime="{r["date"]}">{short(r["date"])}</time><strong>{t}</strong></span></a>')
+def top(cur, solid=False):
     def a(href, label, key): return f'<a href="{href}"{" aria-current=page" if key == cur else ""}>{label}</a>'
-    return f'<header class="mast"><div class="wrap"><a class="name" href="/">LEHCO</a><nav aria-label="Main">{a("/episodes.html","Episodes","ep")}{a("/#stories","Stories","st")}{a(ETSY,"Shop","sh")}{a("/#write","Write to us","wr")}</nav></div></header>'
-FOOT = f'<footer class="foot"><div class="wrap"><p>LEHCO Brand LLC, Lehigh County, Pennsylvania. &copy; 2026.</p><nav aria-label="Footer"><a href="/episodes.html">Episodes</a><a href="{ETSY}">Shop</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/publisher.html">Publisher</a></nav></div></footer>'
-def page(title, desc, path, cur, body, extra=''):
+    return (f'<header class="top{" solid" if solid else ""}"><div class="wrap"><a class="seal" href="/"><img src="/lehco_transparent.png" alt="" width="48" height="48"><span>LEHCO</span></a>'
+            f'<nav aria-label="Main">{a("/episodes.html","Episodes","ep")}{a("/#stories","Stories","st")}{a(ETSY,"Shop","sh")}{a("/#write","Write to us","wr")}</nav></div></header>')
+CREDITS = ('Archive images: bird’s-eye view of Macungie, T. M. Fowler &amp; J. B. Moyer, 1893, Library of Congress; '
+           'Allentown postcards, 1905 to 1935, public domain via Wikimedia Commons. Film clips from LEHCO episodes.')
+FOOT = (f'<footer class="foot"><div class="wrap"><nav aria-label="Footer"><a href="/episodes.html">Episodes</a><a href="{ETSY}">Shop</a><a href="{YT}">YouTube</a><a href="{IG}">Instagram</a><a href="{TT}">TikTok</a>'
+        f'<a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/publisher.html">Publisher</a></nav><p>{CREDITS}</p><p>LEHCO Brand LLC, Lehigh County, Pennsylvania. &copy; 2026.</p></div></footer>')
+PLAYER = '''<dialog class="player" id="player" aria-label="Episode player"><button class="x" aria-label="Close player">&times;</button><div class="frame"></div></dialog>
+<script>
+(function(){var d=document.getElementById('player');if(!d||!d.showModal)return;var f=d.querySelector('.frame');
+function shut(){f.innerHTML='';if(d.open)d.close();}
+document.addEventListener('click',function(e){var a=e.target.closest('[data-yt]');if(!a||e.metaKey||e.ctrlKey)return;e.preventDefault();
+f.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+a.getAttribute('data-yt')+'?autoplay=1&rel=0&playsinline=1" title="LEHCO episode" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';d.showModal();});
+d.addEventListener('click',function(e){if(e.target===d||e.target.classList.contains('x'))shut();});d.addEventListener('close',function(){f.innerHTML='';});
+var v=document.querySelector('.hero video');if(v&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}
+})();
+</script>'''
+def page(title, desc, path, body, extra=''):
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,32 +51,33 @@ def page(title, desc, path, cur, body, extra=''):
 <title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
 <link rel="canonical" href="https://lehcobrand.com{path}">
+<meta name="theme-color" content="#0b121c">
 <meta property="og:title" content="{E(title)}">
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lehcobrand.com{path}">
-<meta property="og:image" content="https://lehcobrand.com/lehco_transparent.png">
+<meta property="og:image" content="https://lehcobrand.com/media/hero-reel.jpg">
 {FONTS}
 <link rel="stylesheet" href="/lehco.css">
 {extra}
 </head>
 <body>
-{mast(cur)}
 {body}
 {FOOT}
+{PLAYER}
 </body>
 </html>
 '''
 STORIES = [
- ('mack-trucks.html', 'Mack Trucks', 'Born in Allentown in 1905, Mack put a snarling bulldog on the hood and Lehigh County on the map of American manufacturing.'),
- ('liberty-bell-hidden-allentown.html', "The Liberty Bell's hideout", "In 1777 the Liberty Bell went underground, hidden beneath Zion's Reformed Church in Allentown for nine months."),
- ('a-treat-soda.html', 'A-Treat soda', 'Bottled in Allentown since 1918, A-Treat is the taste of a Lehigh County summer, birch beer included.'),
- ('hess-department-store.html', "Hess's department store", "Allentown's legendary department store basically invented the mall food court, and a parade nobody who saw it ever forgot."),
- ('shankweilers-drive-in.html', "Shankweiler's Drive-In", "Running in Orefield since 1934, Shankweiler's is America's oldest continuously operating drive-in theater."),
- ('dorney-park.html', 'Dorney Park', "Dropping stomachs and building memories since 1884, Dorney Park is Lehigh County's own amusement park institution."),
- ('trexlertown-velodrome.html', 'The Trexlertown velodrome', "The T-Town Velodrome turned a quiet corner of Lehigh County into one of America's most storied cycling tracks."),
- ('lee-iacocca.html', 'Lee Iacocca', "Born and raised in Allentown, Iacocca went on to reinvent Ford's Mustang and save Chrysler from the brink."),
- ('saquon-barkley.html', 'Saquon Barkley', "Before he was breaking NFL tackles, Saquon was Whitehall's own, Lehigh County's homegrown star running back."),
+ ('mack-trucks.html', 'Mack Trucks', 'Born in Allentown in 1905, with a snarling bulldog on the hood.'),
+ ('liberty-bell-hidden-allentown.html', "The Liberty Bell's hideout", "Nine months under the floor of Zion's Reformed Church, 1777."),
+ ('a-treat-soda.html', 'A-Treat soda', 'Bottled in Allentown since 1918. Birch beer included.'),
+ ('hess-department-store.html', "Hess's department store", 'The store that turned shopping on Hamilton Street into a show.'),
+ ('shankweilers-drive-in.html', "Shankweiler's Drive-In", "Orefield, 1934. America's oldest drive-in still running."),
+ ('dorney-park.html', 'Dorney Park', 'Dropping stomachs since 1884.'),
+ ('trexlertown-velodrome.html', 'The Trexlertown velodrome', 'How a quiet corner of the county became a cycling capital.'),
+ ('lee-iacocca.html', 'Lee Iacocca', 'The Allentown kid behind the Mustang and the Chrysler rescue.'),
+ ('saquon-barkley.html', 'Saquon Barkley', "Whitehall's own, before the NFL knew his name."),
 ]
 SAID = ['You\'re not really from here until you\'ve argued about whether it\'s "Allentown" or "the Valley."',
  'There are two seasons in Lehigh County: Fair season, and "when\'s the Fair again?" season.',
@@ -76,110 +85,113 @@ SAID = ['You\'re not really from here until you\'ve argued about whether it\'s "
  'Ask someone from Trexlertown about the Velodrome. Clear your schedule.',
  "If your grandfather didn't work at Mack, did you even grow up here?",
  "We hid the Liberty Bell in a church basement once. We don't bring it up enough."]
-latest, recent = rows[0], rows[1:5]
-home = f'''<main>
-<section class="bill"><div class="wrap"><div class="sheet">
-<p class="when">Every morning at eight o'clock</p>
-<div class="rule"></div>
-<h1><span class="l1">Lehigh County</span><span class="l2">History</span><span class="l3">told in sixty seconds, one town at a time</span></h1>
-<img class="cut" src="/lehco_transparent.png" alt="LEHCO mark: the outline of Pennsylvania with a gold star on Lehigh County" width="200" height="200">
-<p class="claims"><span>Real photographs</span> <b>&#9733;</b> <span>Named sources</span> <b>&#9733;</b> <span>Corrections pinned</span></p>
-<div class="rule short"></div>
-<p class="fine">Allentown, Emmaus, Macungie, Slatington, Whitehall and every crossroads between. Made by a family that never left the 610.</p>
-<div class="btns"><a class="btn" href="/episodes.html">Watch the episodes</a><a class="btn plain" href="{ETSY}" target="_blank" rel="noopener">Shop the gear</a></div>
-</div></div></section>
+TOWNS = ['Allentown', 'Emmaus', 'Macungie', 'Slatington', 'Whitehall', 'Coopersburg', 'Catasauqua', 'Coplay', 'Egypt', 'Trexlertown', 'Fogelsville',
+         'Alburtis', 'Center Valley', 'Orefield', 'Schnecksville', 'New Tripoli', 'Breinigsville', 'Zionsville', 'Neffs', 'Fullerton', 'Upper Saucon',
+         'Upper Macungie', 'Salisbury', 'Bethlehem', 'Kutztown Road', 'Lehigh River', 'Jordan Creek']
+def town_count(t): return sum(1 for r in rows if re.search(r'\b' + re.escape(t) + r'\b', r['title'], re.I))
+towns = sorted([(t, town_count(t)) for t in TOWNS], key=lambda x: -x[1])
+towns = [(t, n) for t, n in towns if n][:14]
+latest, recent = rows[0], rows[1:11]
+watched = sorted(rows, key=lambda r: int(r['reach'] or 0), reverse=True)[:5]
+ticker = ''.join(f'<q>{E(q)}</q>' for q in SAID)
+home = f'''{top('')}
+<main>
+<section class="hero">
+<video autoplay muted loop playsinline preload="metadata" poster="/media/hero-reel.jpg" aria-hidden="true"><source src="/media/hero-reel.mp4" type="video/mp4"></video>
+<div class="wrap">
+<h1>You’ve driven past it <em>a thousand times.</em></h1>
+<p>The bell hidden under a church floor. The creek that sinks into the ground. The outhouse on the National Register. Lehigh County’s stories, one minute every morning at 8.</p>
+<div class="acts"><a class="btn" href="https://www.youtube.com/shorts/{ytid(latest['youtube'])}" data-yt="{ytid(latest['youtube'])}">{TRI} Play this morning’s story</a><a class="btn ghost" href="/episodes.html">Browse every episode</a></div>
+</div>
+</section>
 <section class="sec" id="latest"><div class="wrap">
-<h2>This morning's story</h2>
-<p class="lead">The newest episode, and the four before it.</p>
-<div class="plates">{plate(latest, True)}{''.join(plate(r) for r in recent)}</div>
-<div class="btns" style="justify-content:flex-start"><a class="btn" href="/episodes.html">See every episode</a><a class="btn plain" href="{YT}?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a></div>
+<div class="today">
+{card(latest, True)}
+<div><p class="when">This morning · {nice(latest['date'])}</p><h2>{E(latest['title'])}</h2>
+<p class="lede">Sixty seconds, real photographs, named sources. If we get one wrong, the correction gets pinned.</p>
+<div class="acts"><a class="btn" href="https://www.youtube.com/shorts/{ytid(latest['youtube'])}" data-yt="{ytid(latest['youtube'])}">{TRI} Watch now</a><a class="btn ghost" href="{YT}?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a></div></div>
+</div>
+<div class="headrow" style="margin-top:clamp(50px,8vw,90px)"><h2>The last ten mornings</h2><a class="more" href="/episodes.html">All {len(rows)} episodes</a></div>
+<div class="reel">{''.join(card(r) for r in recent)}</div>
 </div></section>
-<section class="sec"><div class="wrap"><div class="letter">
-<h2>Why we started</h2>
-<p style="margin-top:14px">We started LEHCO because there's a Delco shirt, a Chesco shirt, a Bucks shirt, and nothing for the county that gave the world a bulldog on a hood and a bell in a basement. Lehigh County has stories nobody else gets to tell. We just figured somebody should put them on a hoodie.</p>
-<p class="sig">Dave and family, LEHCO</p>
-</div></div></section>
-<section class="sec" id="stories"><div class="wrap">
-<h2>The long stories</h2>
-<p class="lead">Every county has landmarks. Ours have plot twists. Nine to start with.</p>
-<ul class="index">{''.join(f'<li><a href="/{f}"><strong>{E(t)}</strong><span>{E(d)}</span></a></li>' for f, t, d in STORIES)}</ul>
-</div></section>
-<section class="sec inked" id="shop"><div class="wrap">
-<h2>Wear the county</h2>
-<p class="lead">Every design starts with a Lehigh County story. Tees, hoodies, hats, stickers and flags, printed to order, one at a time.</p>
-<a class="btn" href="{ETSY}" target="_blank" rel="noopener">Open the Etsy shop</a>
+<section class="map" id="towns"><div class="pan" aria-hidden="true"></div><div class="wrap">
+<h2>Find the one about your town.</h2>
+<p class="lede">Every crossroads in the county has a story it doesn’t brag about. Pick a place.</p>
+<div class="towns">{''.join(f'<a href="/episodes.html?q={E(t.replace(" ", "+"))}">{E(t)}<span>{n}</span></a>' for t, n in towns)}</div>
+<p class="credit">Macungie from above, drawn in 1893. Library of Congress.</p>
 </div></section>
 <section class="sec"><div class="wrap">
-<h2>Overheard in the 610</h2>
-<p class="lead">Things you only understand if you're from here.</p>
-<div class="said">{''.join(f'<blockquote>{E(q)}</blockquote>' for q in SAID)}</div>
+<div class="headrow"><div><h2>The ones the county couldn’t stop sharing</h2><p class="lede">Our five most-watched stories so far.</p></div></div>
+<div class="grid">{''.join(card(r) for r in watched)}</div>
 </div></section>
-<section class="sec" id="write"><div class="wrap"><div class="letter">
-<h2>Write to us</h2>
-<p style="margin-top:14px">Spot a mistake? Know a story we should tell? Have old photos of Lehigh County in a shoebox? Send them. Corrections get pinned, and if we make your idea, you get the credit by name.</p>
-<div class="btns" style="justify-content:flex-start"><a class="btn" href="mailto:{MAIL}">Email {MAIL}</a><a class="btn plain" href="{IG}" target="_blank" rel="noopener">Instagram</a><a class="btn plain" href="{TT}" target="_blank" rel="noopener">TikTok</a></div>
-</div></div></section>
+<section class="sec tight" id="stories"><div class="wrap split">
+<figure><img src="/media/hamilton-1910.jpg" alt="Hand-tinted postcard of Hamilton Street in Allentown around 1910, with trolley tracks and brick storefronts" loading="lazy"><figcaption>Hamilton Street looking west from the courthouse, about 1910.</figcaption></figure>
+<div><h2>The long versions</h2><p class="lede">Every county has landmarks. Ours have plot twists.</p>
+<ul class="stories">{''.join(f'<li><a href="/{f}"><strong>{E(t)}</strong><span>{E(d)}</span><i aria-hidden="true">&rarr;</i></a></li>' for f, t, d in STORIES)}</ul></div>
+</div></section>
+<section class="shop" id="shop"><div class="wrap">
+<h2>Wear the county.</h2>
+<p class="lede" style="color:#e6dfcf">There’s a Delco shirt, a Chesco shirt and a Bucks shirt. We figured the county with a bulldog on the hood and a bell in the basement deserved one too. Printed to order, one at a time.</p>
+<div class="acts"><a class="btn" href="{ETSY}" target="_blank" rel="noopener">Open the Etsy shop</a></div>
+<p class="credit">Hamilton Street looking east, 1935 postcard.</p>
+</div></section>
+<div class="ticker" aria-label="Overheard in the 610"><div class="run">{ticker}{ticker}</div></div>
+<section class="sec" id="write"><div class="wrap write">
+<div><h2>Got a shoebox of old photos?</h2>
+<p class="lede">Spot a mistake, know a story we should tell, or have pictures of Lehigh County nobody has seen in fifty years? Send them. If we make your idea, your name goes on it.</p>
+<div class="acts"><a class="btn" href="mailto:{MAIL}">Email {MAIL}</a><a class="btn ghost" href="{IG}" target="_blank" rel="noopener">Instagram</a><a class="btn ghost" href="{TT}" target="_blank" rel="noopener">TikTok</a></div></div>
+<div class="cards" aria-hidden="true"><img src="/media/bridge-1905.jpg" alt="" loading="lazy"><img src="/media/jordan-1905.jpg" alt="" loading="lazy"></div>
+</div></section>
 </main>'''
-top = sorted(rows, key=lambda r: int(r['reach'] or 0), reverse=True)[:4]
 ld = {"@context": "https://schema.org", "@type": "ItemList", "name": "LEHCO: History of Lehigh County, PA", "itemListElement": [
   {"@type": "ListItem", "position": i + 1, "item": {"@type": "VideoObject", "name": r['title'], "description": r['title'], "uploadDate": r['date'],
    "thumbnailUrl": f"https://i.ytimg.com/vi/{ytid(r['youtube'])}/hqdefault.jpg", "embedUrl": f"https://www.youtube.com/embed/{ytid(r['youtube'])}",
-   "url": f"https://www.youtube.com/shorts/{ytid(r['youtube'])}"}} for i, r in enumerate(rows) if ytid(r['youtube'])]}
-eps = f'''<main>
-<section class="bill" style="padding-bottom:20px"><div class="wrap">
-<p class="when">Every morning at eight o'clock</p>
-<div class="rule"></div>
-<h1><span class="l1" style="font-size:clamp(2.4rem,8vw,5.6rem)">The Episodes</span><span class="l3">Lehigh County history, sixty seconds at a time</span></h1>
-<div class="btns"><a class="btn" href="{YT}?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a><a class="btn plain" href="{IG}" target="_blank" rel="noopener">Instagram</a><a class="btn plain" href="{TT}" target="_blank" rel="noopener">TikTok</a></div>
-</div></section>
-<section class="sec"><div class="wrap">
-<h2>Most watched</h2>
-<p class="lead">The four stories the county has watched the most.</p>
-<div class="plates">{''.join(plate(r) for r in top)}</div>
-</div></section>
-<section class="sec"><div class="wrap">
-<h2>The latest {len(rows)}</h2>
-<p class="lead">Newest first. Search for your town, a street, a family name.</p>
+   "url": f"https://www.youtube.com/shorts/{ytid(r['youtube'])}"}} for i, r in enumerate(rows)]}
+eps = f'''{top('ep')}
+<main>
+<section class="pagehead"><div class="wrap">
+<h1>Every story so far.</h1>
+<p class="lede" style="color:#e6dfcf">{len(rows)} mornings of Lehigh County history, newest first. Search for your town, a street, a family name.</p>
 <input class="search" id="q" type="search" placeholder="Try Emmaus, Mack, covered bridge" aria-label="Search episodes">
-<div class="plates" id="all">{''.join(plate(r) for r in rows)}</div>
-<p class="none" id="none">No episode on that yet. Email the idea to <a href="mailto:{MAIL}">{MAIL}</a> and if we make it, you get the credit.</p>
 </div></section>
-<section class="sec inked"><div class="wrap">
-<h2>Got a story or an old photo?</h2>
-<p class="lead">Spot a mistake, know a story we should tell, or have old photos of Lehigh County? With your OK we will use them in a video and credit you by name.</p>
-<div class="btns" style="justify-content:flex-start"><a class="btn" href="mailto:{MAIL}">Email {MAIL}</a><a class="btn" href="{ETSY}" target="_blank" rel="noopener">Shop the gear</a></div>
+<section class="sec" style="padding-top:20px"><div class="wrap">
+<div class="grid" id="all" style="margin-top:0">{''.join(card(r) for r in rows)}</div>
+<p class="none" id="none">No episode on that yet. Email the idea to <a href="mailto:{MAIL}">{MAIL}</a> and if we make it, you get the credit.</p>
 </div></section>
 </main>
 <script>
-var q=document.getElementById('q'),eps=[].slice.call(document.querySelectorAll('#all .plate')),none=document.getElementById('none');
-q.addEventListener('input',function(){{var s=q.value.trim().toLowerCase(),n=0;eps.forEach(function(e){{var ok=!s||e.getAttribute('data-t').indexOf(s)>-1;e.style.display=ok?'':'none';if(ok)n++;}});none.style.display=n?'none':'block';}});
+var q=document.getElementById('q'),eps=[].slice.call(document.querySelectorAll('#all .card')),none=document.getElementById('none');
+function f(){{var s=q.value.trim().toLowerCase(),n=0;eps.forEach(function(e){{var ok=!s||e.getAttribute('data-t').indexOf(s)>-1;e.style.display=ok?'':'none';if(ok)n++;}});none.style.display=n?'none':'block';}}
+q.addEventListener('input',f);var p=new URLSearchParams(location.search).get('q');if(p){{q.value=p;f();}}
 </script>'''
 out = lambda name, text: open(os.path.join(site, name), 'w', encoding='utf-8').write(text)
-out('index.html', page('LEHCO: Lehigh County history, told in sixty seconds', 'A new piece of Lehigh County, Pennsylvania history every morning at 8: real photographs, named sources, and the gear to wear it. Allentown, Emmaus, Macungie, Slatington, Whitehall and beyond.', '/', '', home))
-out('episodes.html', page('LEHCO episodes: Lehigh County history in sixty seconds', f'{len(rows)} short history videos about Lehigh County, Pennsylvania. Search by town and watch on YouTube, Instagram or TikTok.', '/episodes.html', 'ep', eps, '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>'))
-# reskin story pages: same content, new inks and types, working links
+out('index.html', page('LEHCO: the Lehigh County stories you drive past every day', 'You’ve driven past it a thousand times. One minute of Lehigh County, Pennsylvania history every morning at 8: real photographs, named sources, and the gear to wear it.', '/', home))
+out('episodes.html', page('Every LEHCO episode: Lehigh County history in sixty seconds', f'{len(rows)} short history videos about Lehigh County, Pennsylvania. Search by town and watch right on the page.', '/episodes.html', eps, '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>'))
+# story pages: same content, site look, working links
 SKIN = '''<!--lehco-skin-->''' + FONTS + '''<style>
-:root{--navy:#12233f;--navy-deep:#16202f;--gold:#c2932a;--gold-bright:#c2932a;--gold-dim:#7b2219;--cream:#e7dfcb;--paper:#d8cdb2;--white:#f3eddd;--ink:#16202f}
-body{font-family:'Source Serif 4',Georgia,serif;font-size:1.0625rem;background-color:#e7dfcb}
-h1,h2{font-family:'League Gothic',Impact,sans-serif;font-weight:400;letter-spacing:.02em}
-.topbar{background:#e7dfcb;border-bottom:3px double #16202f}
-.topbar .brand{font-family:'Abril Fatface',Georgia,serif;color:#16202f;font-size:1.7rem;letter-spacing:.04em}.topbar .brand span{color:#16202f}
-.topbar a.back{font-family:'League Gothic',Impact,sans-serif;font-size:1.25rem;color:#16202f;opacity:1;font-weight:400}.topbar a.back:hover{color:#7b2219}
-.hero-band{background:#12233f;background-image:none}
-.hero-band h1{font-family:'Abril Fatface',Georgia,serif;text-transform:none;letter-spacing:0;font-size:clamp(2rem,5.4vw,3.2rem);line-height:1.05}
-.hero-image,.t-card{border-radius:0;box-shadow:none;border:2px solid #16202f}
-.t-card h3,.t-year,.section-label,.merch-tease strong{font-family:'League Gothic',Impact,sans-serif;font-weight:400;font-size:1.35rem;letter-spacing:.04em}
-.section-label{font-size:1.8rem}
-.merch-tease{border-radius:0}
-footer{background:#e7dfcb;color:#16202f;border-top:3px double #16202f}
+:root{--navy:#0b121c;--navy-deep:#0b121c;--gold:#e0aa3e;--gold-bright:#e0aa3e;--gold-dim:#e0aa3e;--cream:#efe6d2;--paper:#17263a;--white:#17263a;--ink:#efe6d2}
+body{font-family:'Archivo',Arial,sans-serif;font-size:1.0625rem;background:#0b121c;color:#efe6d2}
+h1,h2{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em;text-transform:none}
+.topbar{background:#0b121c;border-bottom:1px solid rgba(239,230,210,.16)}
+.topbar .brand{font-family:'Fraunces',Georgia,serif;font-weight:700;color:#efe6d2;font-size:1.35rem;letter-spacing:.06em}.topbar .brand span{color:#efe6d2}
+.topbar a.back{font-family:'Archivo',Arial,sans-serif;font-weight:600;font-size:.98rem;color:#efe6d2;opacity:1;text-transform:none;letter-spacing:.02em}.topbar a.back:hover{color:#e0aa3e}
+.hero-band{background:#111c2b;background-image:none}
+.hero-band h1{font-size:clamp(2.1rem,5.6vw,3.6rem);line-height:1.04;text-transform:none}
+.hero-image{border-radius:6px;box-shadow:0 24px 60px rgba(0,0,0,.5);border:8px solid #efe6d2;background:#efe6d2}
+article>p{color:#e6dfcf}
+.t-card{border-radius:12px;box-shadow:none;border:1px solid rgba(239,230,210,.16);background:#17263a}
+.t-card h3{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1.2rem;color:#efe6d2}.t-card p{color:#b9b3a3}
+.t-year,.section-label,.merch-tease strong{font-family:'Archivo',Arial,sans-serif;font-weight:700;letter-spacing:.04em;color:#e0aa3e}
+.merch-tease{border-radius:12px;background:#17263a}
+footer{background:#0b121c;color:#b9b3a3;border-top:1px solid rgba(239,230,210,.16)}
 </style>'''
 for f, _, _ in STORIES:
-    p = os.path.join(repo, f)
+    p = os.path.join(site, f)
     if not os.path.exists(p): print('missing', f); continue
     s = open(p, encoding='utf-8').read()
     s = re.sub(r'<!--lehco-skin-->.*?</style>\n?', '', s, flags=re.S)
     s = s.replace('../lehco-site.html#legends', '/#stories').replace('../lehco-site.html#shop', ETSY).replace('../lehco-site.html#join', '/#write').replace('../lehco-site.html', '/')
     s = s.replace('>Join the List<', '>Write to us<').replace('>History<', '>Stories<')
     s = s.replace('</head>', SKIN + '\n</head>', 1)
-    open(os.path.join(site, f), 'w', encoding='utf-8').write(s)
-print('built', len(rows), 'episodes')
+    open(p, 'w', encoding='utf-8').write(s)
+print('built', len(rows), 'episodes; towns', towns[:6])
