@@ -32,7 +32,7 @@ def card(r, big=False):
 def top(cur, solid=False):
     def a(href, label, key): return f'<a href="{href}"{" aria-current=page" if key == cur else ""}>{label}</a>'
     return (f'<header class="top{" solid" if solid else ""}"><div class="wrap"><a class="seal" href="/"><img src="/lehco_transparent.png" alt="" width="48" height="48"><span>LEHCO</span></a>'
-            f'<nav aria-label="Main">{a("/episodes.html","Episodes","ep")}{a("/#stories","Stories","st")}{a(ETSY,"Shop","sh")}{a("/#write","Write to us","wr")}</nav></div></header>')
+            f'<nav aria-label="Main">{a("/episodes.html","Episodes","ep")}{a("/#stories","Stories","st")}{a("/#weekly","Weekly email","wk")}{a(ETSY,"Shop","sh")}{a("/#write","Write to us","wr")}</nav></div></header>')
 CREDITS = ('Archive images: bird’s-eye view of Macungie, T. M. Fowler &amp; J. B. Moyer, 1893, Library of Congress; '
            'Allentown postcards, 1905 to 1935, public domain via Wikimedia Commons. Film clips from LEHCO episodes.')
 FOOT = (f'<footer class="foot"><div class="wrap"><nav aria-label="Footer"><a href="/episodes.html">Episodes</a><a href="{ETSY}">Shop</a><a href="{YT}">YouTube</a><a href="{IG}">Instagram</a><a href="{TT}">TikTok</a>'
@@ -112,7 +112,7 @@ home = f'''{top('')}
 <section class="sec" id="latest"><div class="wrap">
 <div class="today">
 {card(latest, True)}
-<div><p class="when">The latest · {nice(latest['date'])}</p><h2>{E(latest['title'])}</h2>
+<div><p class="when">Latest story, {nice(latest['date'])}</p><h2>{E(latest['title'])}</h2>
 <p class="lede">Sixty seconds, real photographs, named sources. If we get one wrong, the correction gets pinned.</p>
 <div class="acts"><a class="btn" href="https://www.youtube.com/shorts/{ytid(latest['youtube'])}" data-yt="{ytid(latest['youtube'])}">{TRI} Watch now</a><a class="btn ghost" href="{YT}?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a></div></div>
 </div>
@@ -139,6 +139,12 @@ home = f'''{top('')}
 <p class="lede" style="color:#e6dfcf">There’s a Delco shirt, a Chesco shirt and a Bucks shirt. We figured the county with a bulldog on the hood and a bell in the basement deserved one too. Printed to order, one at a time.</p>
 <div class="acts"><a class="btn" href="{ETSY}" target="_blank" rel="noopener">Open the Etsy shop</a></div>
 <p class="credit">Hamilton Street looking east, 1935 postcard.</p>
+</div></section>
+<section class="sec inbox" id="weekly"><div class="wrap">
+<h2>The week in Lehigh County, in your inbox.</h2>
+<p class="lede">Seven stories, one email, every Sunday morning. Free, and written for people who live here.</p>
+<form class="signup" action="https://app.kit.com/forms/10222433/subscriptions" method="post"><label for="nl-email">Email address</label><input id="nl-email" type="email" name="email_address" placeholder="you@example.com" required autocomplete="email"><button class="btn" type="submit">Send me the week</button></form>
+<p class="credit">One email, Sunday morning. Unsubscribe any time.</p>
 </div></section>
 <div class="ticker" aria-label="Overheard in the 610"><div class="run">{ticker}{ticker}</div></div>
 <section class="sec" id="write"><div class="wrap write">
