@@ -2,7 +2,7 @@
 """Builds the weekly LEHCO email ("The Week in Lehigh County") from episodes-data.csv.
 Writes newsletter/<monday-date>.html and newsletter/latest.html in the site root, plus newsletter/latest.json (subject + preview text).
 Run: python3 _build/build_newsletter.py [YYYY-MM-DD end date, default = newest episode]
-Kit adds the mailing address and unsubscribe link below this content when it sends."""
+The footer carries Kit's {{ address }} and {{ unsubscribe_url }} tags, which Kit fills in when it sends."""
 import csv, html, json, os, re, sys, datetime
 here = os.path.dirname(os.path.abspath(__file__))
 site = os.path.dirname(here) if os.path.basename(here) == '_build' else here
@@ -50,7 +50,7 @@ page = f'''<!DOCTYPE html>
 <div style="font-size:19px;font-weight:bold">Got a shoebox of old photos?</div>
 <div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;margin-top:6px">Reply to this email with a story we should tell or a picture of Lehigh County nobody has seen in fifty years. If we make your idea, your name goes on it.</div></td></tr></table></td></tr>
 <tr><td style="padding:22px 28px 0;font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:{INK}">Every episode, searchable by town: <a href="https://lehcobrand.com/episodes.html" style="color:#8a3a1f;font-weight:bold">lehcobrand.com/episodes</a><br>Lehigh County gear, printed to order: <a href="https://lehco.etsy.com" style="color:#8a3a1f;font-weight:bold">lehco.etsy.com</a></td></tr>
-<tr><td style="padding:22px 28px 30px;font-family:Arial,sans-serif;font-size:12px;line-height:1.5;color:#6d6652">You are getting this because you signed up at lehcobrand.com. One email a week, on Sunday morning.</td></tr>
+<tr><td style="padding:22px 28px 30px;font-family:Arial,sans-serif;font-size:12px;line-height:1.5;color:#6d6652">You are getting this because you signed up at lehcobrand.com. One email a week, on Sunday morning.<br>LEHCO Brand LLC, {{{{ address }}}}<br><a href="{{{{ unsubscribe_url }}}}" style="color:#6d6652">Unsubscribe</a></td></tr>
 </table></td></tr></table></body></html>'''
 out = os.path.join(site, 'newsletter'); os.makedirs(out, exist_ok=True)
 for name in (end.isoformat() + '.html', 'latest.html'):
