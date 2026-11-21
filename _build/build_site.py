@@ -36,7 +36,7 @@ def top(cur, solid=False):
 CREDITS = ('Archive images: bird’s-eye view of Macungie, T. M. Fowler &amp; J. B. Moyer, 1893, Library of Congress; '
            'Allentown postcards, 1905 to 1935, public domain via Wikimedia Commons. Film clips from LEHCO episodes.')
 FOOT = (f'<footer class="foot"><div class="wrap"><nav aria-label="Footer"><a href="/episodes.html">Episodes</a><a href="{ETSY}">Shop</a><a href="{YT}">YouTube</a><a href="{IG}">Instagram</a><a href="{TT}">TikTok</a>'
-        f'<a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/publisher.html">Publisher</a></nav><p>{CREDITS}</p><p>LEHCO Brand LLC, Lehigh County, Pennsylvania. &copy; 2026.</p></div></footer>')
+        f'<a href="/sponsor.html">Sponsor</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/publisher.html">Publisher</a></nav><p>{CREDITS}</p><p>LEHCO Brand LLC, Lehigh County, Pennsylvania. &copy; 2026.</p></div></footer>')
 PLAYER = '''<dialog class="player" id="player" aria-label="Episode player"><button class="x" aria-label="Close player">&times;</button><div class="frame"></div></dialog>
 <script>
 (function(){var d=document.getElementById('player');if(!d||!d.showModal)return;var f=d.querySelector('.frame');
@@ -178,6 +178,39 @@ q.addEventListener('input',f);var p=new URLSearchParams(location.search).get('q'
 out = lambda name, text: open(os.path.join(site, name), 'w', encoding='utf-8').write(text)
 out('index.html', page('LEHCO: the Lehigh County stories you drive past every day', 'You’ve driven past it a thousand times. One minute of Lehigh County, Pennsylvania history every morning at 8: real photographs, named sources, and the gear to wear it.', '/', home))
 out('episodes.html', page('Every LEHCO episode: Lehigh County history in sixty seconds', f'{len(rows)} short history videos about Lehigh County, Pennsylvania. Search by town and watch right on the page.', '/episodes.html', eps, '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>'))
+sponsor = f"""{top('sp')}
+<main>
+<section class="pagehead"><div class="wrap">
+<h1>Put your name beside the county's stories.</h1>
+<p class="lede">LEHCO tells one true story about Lehigh County every morning, in one minute. Four local businesses can sponsor it. One per type of business, so your competitor is never next to you.</p>
+</div></section>
+<section class="sec tight"><div class="wrap sp">
+<div class="sp-facts">
+<div><b>Daily</b><span>A new episode every morning at 8 on TikTok, Instagram and YouTube. More than 115 so far.</span></div>
+<div><b>Local</b><span>Allentown, Emmaus, Macungie, Whitehall, Catasauqua and the townships. The people watching live here.</span></div>
+<div><b>Weekly</b><span>&ldquo;The week in Lehigh County&rdquo; lands in inboxes every Sunday at 9 AM.</span></div>
+</div>
+<div class="sp-plans">
+<article><h2>Founding sponsor</h2><p class="price">$150 a month</p><ul>
+<li>&ldquo;Brought to you by&rdquo; line, logo and link in every Sunday email</li>
+<li>Logo and link on this site</li>
+<li>A closing card and caption credit on one episode a week</li>
+<li>One episode on the history of your business or building</li>
+<li>Your rate never goes up while you stay</li></ul>
+<p class="credit">Four spots. Three-month minimum.</p></article>
+<article><h2>Episode sponsor</h2><p class="price">$75 an episode</p><ul>
+<li>One episode on the history of your business or building</li>
+<li>Caption credit on that episode</li>
+<li>Your name on its listing here</li></ul>
+<p class="credit">Open to any Lehigh County business.</p></article>
+</div>
+<div class="sp-rules"><h2>What we keep the same</h2>
+<p>The history stays accurate: a sponsor's episode is fact-checked like any other. Sponsored episodes are always labeled. One sponsor per type of business.</p>
+<div class="acts"><a class="btn" href="mailto:info@lehcobrand.com?subject=Sponsoring%20LEHCO">Email Dave about a spot</a></div>
+<p class="credit">Dave Hausman, LEHCO Brand LLC, Lehigh County, Pennsylvania. info@lehcobrand.com</p></div>
+</div></section>
+</main>"""
+out('sponsor.html', page('Sponsor LEHCO: reach Lehigh County, one story at a time', 'Four founding sponsor spots on LEHCO, the daily one-minute history of Lehigh County, Pennsylvania. Sunday email, site and episode credit for $150 a month.', '/sponsor.html', sponsor))
 # story pages: same content, site look, working links
 SKIN = '''<!--lehco-skin-->''' + FONTS + '''<style>
 :root{--navy:#0b121c;--navy-deep:#0b121c;--gold:#e0aa3e;--gold-bright:#e0aa3e;--gold-dim:#e0aa3e;--cream:#efe6d2;--paper:#17263a;--white:#17263a;--ink:#efe6d2}
