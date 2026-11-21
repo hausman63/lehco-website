@@ -16,11 +16,12 @@ h2{font-size:clamp(2.1rem,5vw,3.6rem)}
 .top.solid{position:relative;background:var(--night);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:18px;padding-bottom:18px}
 .seal{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--serif);font-weight:700;font-size:1.35rem;letter-spacing:.06em}
-.seal img{width:48px;height:48px;border-radius:50%;background:var(--paper);padding:7px;object-fit:contain}
+.seal{flex-shrink:0}
+.seal img{flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--paper);padding:7px;object-fit:contain}
 .top nav{display:flex;gap:26px;flex-wrap:wrap}
 .top nav a{text-decoration:none;font-weight:600;font-size:.98rem;letter-spacing:.02em;padding:6px 0;border-bottom:2px solid transparent}
 .top nav a:hover,.top nav a[aria-current]{border-bottom-color:var(--gold);color:var(--gold)}
-@media(max-width:640px){.top .wrap{gap:10px}.top nav{gap:13px;flex-wrap:nowrap}.top nav a{font-size:.84rem;white-space:nowrap}.seal span{display:none}.seal img{width:42px;height:42px}}
+@media(max-width:640px){.top .wrap{gap:8px}.top nav{gap:10px;flex-wrap:nowrap}.top nav a{font-size:.86rem;white-space:nowrap}.top nav a:nth-child(2),.top nav a:nth-child(5){display:none}.seal span{display:none}.seal img{width:42px;height:42px}}
 /* hero */
 .hero{position:relative;min-height:min(100svh,900px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
 .hero video,.hero .still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:saturate(.8) contrast(1.05)}
@@ -125,3 +126,10 @@ dialog.player .frame{height:min(86vh,800px);aspect-ratio:9/16;max-width:92vw;bor
 dialog.player iframe{width:100%;height:100%;border:0;display:block}
 dialog.player .x{position:absolute;top:-14px;right:-14px;width:44px;height:44px;border-radius:50%;border:0;background:var(--paper);color:#111;font-size:1.4rem;font-weight:700;cursor:pointer}
 @media(prefers-reduced-motion:reduce){.map .pan,.ticker .run{animation:none}.card img{transition:none}html{scroll-behavior:auto}}
+
+/* weekly email signup */
+.inbox{background:var(--deep);border-block:1px solid var(--line)}
+.signup{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;max-width:640px}
+.signup label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.signup input{font:inherit;flex:1 1 260px;padding:15px 20px;border-radius:999px;border:1.5px solid rgba(239,230,210,.5);background:rgba(11,18,28,.7);color:var(--paper)}
+.signup input::placeholder{color:var(--dim)}
