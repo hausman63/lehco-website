@@ -133,3 +133,18 @@ dialog.player .x{position:absolute;top:-14px;right:-14px;width:44px;height:44px;
 .signup label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .signup input{font:inherit;flex:1 1 260px;padding:15px 20px;border-radius:999px;border:1.5px solid rgba(239,230,210,.5);background:rgba(11,18,28,.7);color:var(--paper)}
 .signup input::placeholder{color:var(--dim)}
+
+/* sponsor page */
+.sp{display:grid;gap:clamp(36px,6vw,64px)}
+.sp-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-block:1px solid var(--line);padding:28px 0}
+.sp-facts b{display:block;font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--gold);margin-bottom:6px}
+.sp-facts span{color:var(--dim)}
+.sp-plans{display:grid;grid-template-columns:3fr 2fr;gap:24px;align-items:start}
+.sp-plans article{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:clamp(24px,4vw,40px)}
+.sp-plans h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.sp-plans .price{font-family:var(--serif);font-size:1.5rem;color:var(--gold);margin:10px 0 18px}
+.sp-plans ul{margin:0;padding-left:1.1em;display:grid;gap:10px;max-width:52ch}
+.sp-rules h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.sp-rules p{max-width:62ch;margin-top:14px}
+.sp-rules .acts{margin-top:26px}
+@media(max-width:760px){.sp-facts,.sp-plans{grid-template-columns:1fr}}
