@@ -148,3 +148,12 @@ dialog.player .x{position:absolute;top:-14px;right:-14px;width:44px;height:44px;
 .sp-rules p{max-width:62ch;margin-top:14px}
 .sp-rules .acts{margin-top:26px}
 @media(max-width:760px){.sp-facts,.sp-plans{grid-template-columns:1fr}}
+
+/* dated story pages */
+.tl{margin-top:clamp(48px,8vw,88px);max-width:820px}
+.tl h2{font-size:clamp(1.7rem,3.4vw,2.4rem);margin-bottom:22px}
+.tl dl{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:0;border-top:1px solid var(--line)}
+.tl dt,.tl dd{padding:16px 0;border-bottom:1px solid var(--line);margin:0}
+.tl dt{font-family:var(--serif);font-weight:600;color:var(--gold);padding-right:18px}
+.tl dd a,.tl .lede a,.tl .credit a{color:var(--gold)}
+@media(max-width:560px){.tl dl{grid-template-columns:1fr}.tl dt{border-bottom:0;padding-bottom:0}.tl dd{padding-top:6px}}
