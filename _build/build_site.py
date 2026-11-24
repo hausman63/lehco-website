@@ -84,6 +84,7 @@ STORIES = [
  ('lee-iacocca.html', 'Lee Iacocca', 'The Allentown kid behind the Mustang and the Chrysler rescue.'),
  ('saquon-barkley.html', 'Saquon Barkley', "Whitehall's own, before the NFL knew his name."),
 ]
+LIGHTS = ('lights-in-the-parkway.html', 'Lights in the Parkway', 'Season 30 opens November 27, 2026. One year is missing.')
 SAID = ['You\'re not really from here until you\'ve argued about whether it\'s "Allentown" or "the Valley."',
  'There are two seasons in Lehigh County: Fair season, and "when\'s the Fair again?" season.',
  "A-Treat birch beer isn't a beverage preference. It's a personality trait.",
@@ -132,7 +133,7 @@ home = f'''{top('')}
 <section class="sec tight" id="stories"><div class="wrap split">
 <figure><img src="/media/hamilton-1910.jpg" alt="Hand-tinted postcard of Hamilton Street in Allentown around 1910, with trolley tracks and brick storefronts" loading="lazy"><figcaption>Hamilton Street looking west from the courthouse, about 1910.</figcaption></figure>
 <div><h2>The long versions</h2><p class="lede">Every county has landmarks. Ours have plot twists.</p>
-<ul class="stories">{''.join(f'<li><a href="/{f}"><strong>{E(t)}</strong><span>{E(d)}</span><i aria-hidden="true">&rarr;</i></a></li>' for f, t, d in STORIES)}</ul></div>
+<ul class="stories">{''.join(f'<li><a href="/{f}"><strong>{E(t)}</strong><span>{E(d)}</span><i aria-hidden="true">&rarr;</i></a></li>' for f, t, d in [LIGHTS] + STORIES)}</ul></div>
 </div></section>
 <section class="shop" id="shop"><div class="wrap">
 <h2>Wear the county.</h2>
@@ -211,6 +212,48 @@ sponsor = f"""{top('sp')}
 </div></section>
 </main>"""
 out('sponsor.html', page('Sponsor LEHCO: reach Lehigh County, one story at a time', 'Four founding sponsor spots on LEHCO, the daily one-minute history of Lehigh County, Pennsylvania. Sunday email, site and episode credit for $150 a month.', '/sponsor.html', sponsor))
+LV = 'of6Fw0PfdkY'
+lights = f"""{top('st')}
+<main>
+<section class="pagehead"><div class="wrap">
+<h1>Lights in the Parkway: thirty seasons, one missing year.</h1>
+<p class="lede">Allentown's drive-through holiday lights started in 1996. The 2026 show is season 30. Count the years and you get 31. Here is where the other one went.</p>
+</div></section>
+<section class="sec tight"><div class="wrap">
+<div class="today">
+<a class="card big" href="https://www.youtube.com/shorts/{LV}" data-yt="{LV}" target="_blank" rel="noopener" aria-label="Play: the history of Lights in the Parkway"><img src="https://i.ytimg.com/vi/{LV}/hqdefault.jpg" alt=""><span class="play">{TRI}</span><span class="meta"><strong>The whole story in sixty seconds</strong></span></a>
+<div><p class="when">Season 30 opens Friday, November 27, 2026</p><h2>The winter the lights left the park.</h2>
+<p class="lede">In June 2015, a stone wall built by WPA workers in the 1930s gave way in heavy rain. That winter the lights went downtown to Hamilton Street instead. They came home in 2016.</p>
+<div class="acts"><a class="btn" href="https://www.youtube.com/shorts/{LV}" data-yt="{LV}">{TRI} Watch the story</a><a class="btn ghost" href="https://www.allentownpa.gov/LITP" target="_blank" rel="noopener">Tickets from the City of Allentown</a></div></div>
+</div>
+<div class="tl">
+<h2>How it went</h2>
+<dl>
+<dt>1920s</dt><dd>The Lehigh Parkway is planned along Little Lehigh Creek. Most of it is built between 1936 and 1940 with WPA money, including a stone wall that carries the road in.</dd>
+<dt>1996</dt><dd>The first Lights in the Parkway. The city has counted its seasons from this year ever since.</dd>
+<dt>2010</dt><dd>Season 15. By then the city counted about two million visitors and more than $400,000 raised for local nonprofit groups.</dd>
+<dt>June 20, 2015</dt><dd>A section of the WPA wall on Park Drive, about 50 feet long, collapses in heavy rain.</dd>
+<dt>Winter 2015</dt><dd>The city says wall repairs make it impossible to bring two lanes of traffic into the park safely. The show is replaced by &ldquo;Allentown Lights&rdquo; on Hamilton Street, from 10th to 6th. This is the missing year.</dd>
+<dt>2016</dt><dd>The lights come home for the 20th season, opening November 25.</dd>
+<dt>2020</dt><dd>The show closes two nights early, overwhelmed: more than 15,000 vehicles had come through.</dd>
+<dt>December 2025</dt><dd>Vandals wreck displays, including Old Man Winter, 23 feet tall and 45 feet long. The show reopens within days with displays on loan.</dd>
+<dt>2026</dt><dd>Season 30: a quarter-million lights over more than a mile, and a new red, white and blue eagle for the nation's 250th.</dd>
+</dl>
+</div>
+<div class="tl">
+<h2>If you are going this season</h2>
+<dl>
+<dt>Dates</dt><dd>Friday, November 27, 2026 through January 6, 2027. Closed Christmas Eve, Christmas Day, New Year's Eve and New Year's Day.</dd>
+<dt>Hours</dt><dd>5:30 to 10 p.m.</dd>
+<dt>On foot</dt><dd>Mondays are for walking, running and biking through, starting November 30.</dd>
+<dt>Tickets</dt><dd>Sold in advance online by the city. <a href="https://www.allentownpa.gov/LITP" target="_blank" rel="noopener">Check the city's page</a> for prices and any changes before you go. Proceeds benefit local nonprofits.</dd>
+</dl>
+<p class="credit">Sources: City of Allentown; PoliticsPA (2010); WFMZ; CBS Philadelphia (2025); LVP News; Lehigh Valley Public Media. LEHCO is not affiliated with the City of Allentown or the event. Spot a mistake? <a href="mailto:{MAIL}">Tell us</a> and the correction gets pinned.</p>
+<p class="lede" style="margin-top:28px">What year did your family first drive through? <a href="/#weekly">Get one Lehigh County story like this every Sunday.</a></p>
+</div>
+</div></section>
+</main>"""
+out('lights-in-the-parkway.html', page('Lights in the Parkway history: 30 seasons in Allentown, and the year it moved', 'The history of Lights in the Parkway in Allentown, PA: started in 1996, moved downtown in 2015 after a WPA wall collapsed, and opens its 30th season November 27, 2026.', '/lights-in-the-parkway.html', lights))
 # story pages: same content, site look, working links
 SKIN = '''<!--lehco-skin-->''' + FONTS + '''<style>
 :root{--navy:#0b121c;--navy-deep:#0b121c;--gold:#e0aa3e;--gold-bright:#e0aa3e;--gold-dim:#e0aa3e;--cream:#efe6d2;--paper:#17263a;--white:#17263a;--ink:#efe6d2}
